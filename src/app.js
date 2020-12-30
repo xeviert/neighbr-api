@@ -5,10 +5,13 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config')
 const logger = require('./logger')
-const favorsRouter = require('./favors/favors-router')
-const usersRouter = require('./users/users-router')
+
+
+const UsersService = require('./users/users-service')
+// const FavorsService = require('./favors-service')
 
 const app = express()
+const jsonParser = express.json()
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
@@ -33,8 +36,64 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors({origin: CLIENT_ORIGIN}))
 app.use(express.json())
-app.use(favorsRouter)
-app.use(usersRouter)
+// app.use('/profile', usersRouter)
+
+
+
+//---------------------ENDPOINTS--------------------
+
+app.get('/profile', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    UsersService.getAllUsers(knexInstance)
+        .then(users => {
+            res.json(users)
+        })
+        .catch(next)
+})
+
+app.post('/profile', jsonParser, (req, res, next) => {
+  const { first_name, last_name, email, password, address } = req.body
+  const newUser = { first_name, last_name, email, password, address }
+  UsersService.insertUser(
+    req.app.get('db'),
+    newUser
+  )
+  .then(user => {
+    res
+      .status(201)
+      .location((`/profile/${user.user_id}`))
+      .json(user)
+  })
+  .catch(next)
+})
+
+
+app.get('/profile/:user_id', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    UsersService.getById(knexInstance, req.params.user_id)
+     .then(user => {
+        if (!user) {
+          return res.status(404).json({
+            error: { message: `User doesn't exist` }
+          })
+        }
+       res.json(user)
+     })
+     .catch(next)
+})
+
+// app.get('/', (req, res, next) => {
+//     const knexInstance = req.app.get('db')
+//     FavorsService.getAllFavors(knexInstance)
+//         .then(articles => {
+//             res.json(articles)
+//         })
+//         .catch(next)
+// })
+
+// app.get('/:id', (req, res, next) => {
+//     res.send('Specific favor')
+// })
 
 //--------------------ERROR HANDLER-----------------
 

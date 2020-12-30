@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --require test/setup.js",
-    "start": "node src/practice.js"
+    "dev": "nodemon src/server.js",
+    "migrate": "postgrator --config postgrator-config.js",
+    "migrate:test": "env NODE_ENV=test npm run migrate",
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +28,7 @@
     "chai": "^4.2.0",
     "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
+    "postgrator-cli": "^3.2.0",
     "supertest": "^6.0.1"
   },
   "eslintConfig": {
