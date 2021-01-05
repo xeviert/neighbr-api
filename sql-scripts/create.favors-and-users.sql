@@ -1,18 +1,22 @@
-CREATE TABLE IF NOT EXISTS users (
-    user_id BIGSERIAL NOT NULL PRIMARY KEY,
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS favors;
+
+CREATE TABLE users (
+    user_id BIGSERIAL ON DELETE CASCADE NOT NULL PRIMARY KEY,
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     email VARCHAR(30) NOT NULL,
     password VARCHAR(32) NOT NULL,
     address VARCHAR(50) NOT NULL
-)
+);
 
-CREATE TABLE IF NOT EXISTS favors (
+CREATE TABLE favors (
     favor_id BIGSERIAL NOT NULL PRIMARY KEY,
-    user_id --how to link to user table--
+    user_id BIGSERIAL REFERENCES users(user_id) NOT NULL,
     title VARCHAR(20) NOT NULL,
     payment VARCHAR(20) NOT NULL,
     description VARCHAR(300) NOT NULL,
-    --assign_to
-    --assign_note
+    posted DATE DEFAULT now()
 )
+
+-- add column to favors table that'll link assign to and assign note to a different user than the one that posted

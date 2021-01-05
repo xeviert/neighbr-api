@@ -6,9 +6,8 @@ const helmet = require('helmet')
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config')
 const logger = require('./logger')
 const usersRouter = require('./users/users-router')
+const loginRouter = require('./login/login-router')
 
-
-const UsersService = require('./users/users-service')
 // const FavorsService = require('./favors-service')
 
 const app = express()
@@ -44,48 +43,7 @@ app.use('/profile', usersRouter)
 
 //---------------------ENDPOINTS--------------------
 
-//BOTH APP.GET ENDPOINTS WORK IN HERE BUT THEY WONT WORK IN ROUTER.JS
 
-
-// app.get('/profile', (req, res, next) => {
-//     const knexInstance = req.app.get('db')
-//     UsersService.getAllUsers(knexInstance)
-//         .then(users => {
-//             res.json(users)
-//         })
-//         .catch(next)
-// })
-
-// app.post('/profile', jsonParser, (req, res, next) => {
-//   const { first_name, last_name, email, password, address } = req.body
-//   const newUser = { first_name, last_name, email, password, address }
-//   UsersService.insertUser(
-//     req.app.get('db'),
-//     newUser
-//   )
-//   .then(user => {
-//     res
-//       .status(201)
-//       .location((`/profile/${user.user_id}`))
-//       .json(user)
-//   })
-//   .catch(next)
-// })
-
-
-// app.get('/profile/:user_id', (req, res, next) => {
-//     const knexInstance = req.app.get('db')
-//     UsersService.getById(knexInstance, req.params.user_id)
-//      .then(user => {
-//         if (!user) {
-//           return res.status(404).json({
-//             error: { message: `User doesn't exist` }
-//           })
-//         }
-//        res.json(user)
-//      })
-//      .catch(next)
-// })
 
 // app.get('/', (req, res, next) => {
 //     const knexInstance = req.app.get('db')

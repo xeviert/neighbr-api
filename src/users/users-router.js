@@ -1,10 +1,10 @@
 const express = require('express')
+const xss = require('xss')
 const UsersService = require('./users-service')
 
 const usersRouter = express.Router()
 const jsonParser = express.json()
 
-//-------THIS IS NOT WORKING ---- VVVVV--- BUT IT WORKS IN THE APP.JS 
 usersRouter
     .route('/')
     .get((req, res, next) => {
@@ -14,30 +14,31 @@ usersRouter
             })
             .catch(next)
     })
-    // .post(jsonParser, (req, res, next) => {
-    //     const { first_name, last_name, email, password, address } = req.body
-    //     const newUser = { first_name, last_name, email, password, address }
+    .post(jsonParser, (req, res, next) => {
+        const { first_name, last_name, email, password, address } = req.body
+        const newUser = { first_name, last_name, email, password, address }
         
-    //     for (const [key, value] of Object.entries(newUser)) {
-    //         if (value == null) {
-    //             return res.status(400).json({
-    //                 error: { message: `Missing '${key}' in request body` }
-    //             })
-    //         }
-    //     }
+        for (const [key, value] of Object.entries(newUser)) {
+            if (value == null) {
+                return res.status(400).json({
+                    error: { message: `Missing '${key}' in request body` }
+                })
+            }
+        }
 
-    //     UsersService.insertUser(
-    //         req.app.get('db'),
-    //         newUser
-    //     )
-    //         .then(user => {
-    //             res
-    //               .status(201)
-    //               .json(user)
-    //         })
-    //         .catch(next)
-    // })
+        UsersService.insertUser(
+            req.app.get('db'),
+            newUser
+        )
+            .then(user => {
+                res
+                  .status(201)
+                  .json(user)
+            })
+            .catch(next)
+    })
 
+        //I could use .all(), end of checkpoint 16    
 usersRouter
     .route('/:user_id')
     .get((req, res, next) => {
@@ -50,8 +51,42 @@ usersRouter
               })
             }
            res.json(user)
+           //I did not do XSS, sanitize, checkpoint 16
         })
         .catch(next)
+    })
+    .delete((req, res, next) => {
+        UsersService.deleteUser(
+            req.app.get('db'),
+            req.params.user_id
+        )
+            .then(() => {
+                res.status(204).end()
+            })
+            .catch(next)
+    })
+    .patch(jsonParser, (req, res, next) => {
+        const { first_name, last_name, email, password, address } = req.body
+        const userToUpdate = { first_name, last_name, email, password, address }
+
+        const numberOfValues = Object.values(articleToUpdate).filter(Boolean).length
+            if (numberOfValues === 0) {
+                return res.status(400).json({
+                error: {
+                    message: `Request body must contain   either 'title', 'style' or 'content'`
+                }
+                })
+            }
+
+        UsersService.updateUser(
+            req.app.get('db'),
+            req.params.user_id,
+            userToUpdate
+        )
+            .then(numRowsAffected => {
+                res.status(204).end()
+            })
+            .catch(next)
     })
 
 module.exports = usersRouter
