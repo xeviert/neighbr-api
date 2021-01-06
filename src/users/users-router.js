@@ -1,5 +1,5 @@
 const express = require('express')
-const xss = require('xss')
+const bcrypt = require('bcrypt')
 const UsersService = require('./users-service')
 
 const usersRouter = express.Router()
@@ -14,31 +14,35 @@ usersRouter
             })
             .catch(next)
     })
-    .post(jsonParser, (req, res, next) => {
-        const { first_name, last_name, email, password, address } = req.body
-        const newUser = { first_name, last_name, email, password, address }
-        
-        for (const [key, value] of Object.entries(newUser)) {
-            if (value == null) {
-                return res.status(400).json({
-                    error: { message: `Missing '${key}' in request body` }
-                })
-            }
-        }
+    // I DONT THINK THIS WILL BE NEEDED ANYMORE
+    // .post(jsonParser, async (req, res, next) => {
+   
+    //         const { first_name, last_name, email, password, address } = req.body
+    //         const newUser = { first_name, last_name, email, password: hashedPassword, address }
+            
+    //         for (const [key, value] of Object.entries(newUser)) {
+    //             if (value == null) {
+    //                 return res.status(400).json({
+    //                     error: { message: `Missing '${key}' in request body` }
+    //                 })
+    //             }
+    //         }
 
-        UsersService.insertUser(
-            req.app.get('db'),
-            newUser
-        )
-            .then(user => {
-                res
-                  .status(201)
-                  .json(user)
-            })
-            .catch(next)
-    })
+    //         UsersService.insertUser(
+    //             req.app.get('db'),
+    //             newUser
+    //         )
+    //             .then(user => {
+    //                 res
+    //                 .status(201)
+    //                 .json(user)
+    //             })
+    //             .catch(next)
 
-        //I could use .all(), end of checkpoint 16    
+    // })
+
+        //I could use .all(), end of checkpoint 16  
+          
 usersRouter
     .route('/:user_id')
     .get((req, res, next) => {

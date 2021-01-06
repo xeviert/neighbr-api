@@ -6,7 +6,7 @@ const helmet = require('helmet')
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config')
 const logger = require('./logger')
 const usersRouter = require('./users/users-router')
-const loginRouter = require('./login/login-router')
+const registerRouter = require('./register/register-router')
 
 // const FavorsService = require('./favors-service')
 
@@ -38,6 +38,7 @@ app.use(helmet())
 app.use(cors())
 app.use(express.json())
 app.use('/profile', usersRouter)
+app.use('/register', registerRouter)
 
 
 
