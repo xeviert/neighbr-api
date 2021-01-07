@@ -5,8 +5,10 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV, CLIENT_ORIGIN } = require('./config')
 const logger = require('./logger')
+const favorsRouter = require('./favors/favors-router')
 const usersRouter = require('./users/users-router')
 const registerRouter = require('./register/register-router')
+const loginRouter = require('./login/login-router')
 
 // const FavorsService = require('./favors-service')
 
@@ -38,7 +40,9 @@ app.use(helmet())
 app.use(cors())
 app.use(express.json())
 app.use('/profile', usersRouter)
+app.use('/favors', favorsRouter)
 app.use('/register', registerRouter)
+app.use('/login', loginRouter)
 
 
 

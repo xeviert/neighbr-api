@@ -16,7 +16,7 @@ CREATE TABLE favors (
     title VARCHAR(20) NOT NULL,
     payment VARCHAR(20) NOT NULL,
     description VARCHAR(300) NOT NULL,
-    posted DATE DEFAULT now()
+    posted TIMESTAMP DEFAULT now() NOT NULL
 )
 
 -- add column to favors table that'll link assign to and assign note to a different user than the one that posted

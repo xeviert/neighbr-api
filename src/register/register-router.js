@@ -7,7 +7,7 @@ const jsonParser = express.json()
 
 registerRouter
     .route('/')
-    .post(jsonParser, async (req, res) => {
+    .post(jsonParser, (req, res, next) => {
 
         const { first_name, last_name, email, password, address } = req.body      
 
