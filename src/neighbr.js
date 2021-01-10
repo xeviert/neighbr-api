@@ -1,10 +1,10 @@
-require('dotenv').config()
-const knex = require('knex')
-const FavorsService = require('./favors-service')
+// require('dotenv').config()
+// const knex = require('knex')
+// const FavorsService = require('./favors-service')
 
-const knexInstance = knex({
-    client: 'pg',
-    connection: process.env.DB_URL,
-})
+// const knexInstance = knex({
+//     client: 'pg',
+//     connection: process.env.DB_URL,
+// })
 
-console.log(FavorsService.getAllFavors())
+// console.log(FavorsService.getAllFavors())

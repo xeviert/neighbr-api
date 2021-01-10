@@ -14,36 +14,7 @@ usersRouter
                 res.json(users)
             })
             .catch(next)
-    })
-    // I DONT THINK THIS WILL BE NEEDED ANYMORE
-    // .post(jsonParser, async (req, res, next) => {
-   
-    //         const { first_name, last_name, email, password, address } = req.body
-    //         const newUser = { first_name, last_name, email, password: hashedPassword, address }
-            
-    //         for (const [key, value] of Object.entries(newUser)) {
-    //             if (value == null) {
-    //                 return res.status(400).json({
-    //                     error: { message: `Missing '${key}' in request body` }
-    //                 })
-    //             }
-    //         }
-
-    //         UsersService.insertUser(
-    //             req.app.get('db'),
-    //             newUser
-    //         )
-    //             .then(user => {
-    //                 res
-    //                 .status(201)
-    //                 .json(user)
-    //             })
-    //             .catch(next)
-
-    // })
-
-        //I could use .all(), end of checkpoint 16  
-        
+    }) 
         
         //I DONT THINK THIS BELOW WILL BE NEEDED
 // usersRouter

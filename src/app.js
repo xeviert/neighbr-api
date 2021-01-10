@@ -10,10 +10,7 @@ const usersRouter = require('./users/users-router')
 const registerRouter = require('./register/register-router')
 const loginRouter = require('./login/login-router')
 
-// const FavorsService = require('./favors-service')
-
 const app = express()
-const jsonParser = express.json()
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
@@ -39,42 +36,25 @@ app.use(helmet())
 // app.use(cors({origin: CLIENT_ORIGIN}))
 app.use(cors())
 app.use(express.json())
+
+//--------------------ROUTERS---------------------------
 app.use('/profile', usersRouter)
 app.use('/favors', favorsRouter)
 app.use('/register', registerRouter)
 app.use('/login', loginRouter)
 
-
-
-//---------------------ENDPOINTS--------------------
-
-
-
-// app.get('/', (req, res, next) => {
-//     const knexInstance = req.app.get('db')
-//     FavorsService.getAllFavors(knexInstance)
-//         .then(articles => {
-//             res.json(articles)
-//         })
-//         .catch(next)
-// })
-
-// app.get('/:id', (req, res, next) => {
-//     res.send('Specific favor')
-// })
-
 //--------------------ERROR HANDLER-----------------
 
 app.use(function errorHandler(error, req, res, next) {
-    let response
+    let response;
     if (NODE_ENV === 'production') {
         response = { error: { message: 'server error'} }
     } else {
-        console.error(error)
+        console.error("error")
         response = { message: error.message, error }
     }
     res.status(500).json(response)
-})
+});
 
 
 module.exports = app

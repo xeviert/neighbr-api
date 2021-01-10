@@ -7,10 +7,6 @@ const db = knex({
   connection: DB_URL,
 })
 
-// app.get('/api/*', (req, res) => {
-//   res.json({ok: true});
-// });
-
 app.set('db', db)
 
 app.listen(PORT, () => {

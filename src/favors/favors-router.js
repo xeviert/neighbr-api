@@ -16,8 +16,8 @@ favorsRouter
             .catch(next)
     })
     .post(requireAuth, jsonBodyParser, (req, res, next) => {
-        const { favor_id, title, payment, description } = req.body
-        const newFavor = { favor_id, title, payment, description }
+        const { title, payment, description } = req.body
+        const newFavor = { title, payment, description }
 
         for (const [key, value] of Object.entries(newFavor))
             if (value == null)
@@ -25,7 +25,7 @@ favorsRouter
                     error: { message: `Missing ${key}` }
                 })
             
-        newFavor.user_id = req.user.id
+        newFavor.user_id = req.user.user_id
 
         FavorsService.insertFavor(
             req.app.get('db'), 
