@@ -27,15 +27,14 @@ registerRouter
         RegisterService.hasUserWithEmail(
             req.app.get('db'),
             email
-        )
+        ).then(hasUserWithEmail => {
+            if (hasUserWithEmail)
+            return res.status(400).json({ error: `email already registered` })
+        })
 
-            .then(hasUserWithEmail => {
-                if (hasUserWithEmail)
-                return res.status(400).json({ error: `email already registered` })
-            })
-                return RegisterService.hashPassword(password)
-                    .then(hashedPassword => {
-                        const newUser = { first_name, last_name, email, password: hashedPassword, address }
+            return RegisterService.hashPassword(password)
+                .then(hashedPassword => {
+                    const newUser = { first_name, last_name, email, password: hashedPassword, address }
                         
                         return RegisterService.insertUser(
                             req.app.get('db'), 
@@ -46,7 +45,8 @@ registerRouter
                                 .status(201)
                                 .json(user)
                             })
-                    })
+                })
+
             .catch(next)
     })
 

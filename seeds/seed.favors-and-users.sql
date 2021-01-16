@@ -1,4 +1,5 @@
 BEGIN;
+
 TRUNCATE users;
 INSERT INTO users
     (first_name, last_name, email, password, address)
@@ -10,5 +11,6 @@ VALUES
     ('Moises', 'Brakus', 'Terence.Ebert25@gmail.com', '$2a$12$jqMHBp1IoIY9/NZvI.KnxudFRxoBY.GoNT/sG2IalkVtULjBwN1HW', '1827 Bruen Place'),
     ('Nelda', 'Bradtke', 'Clyde56@gmail.com', '$2a$12$jqMHBp1IoIY9/NZvI.KnxudFRxoBY.GoNT/sG2IalkVtULjBwN1HW', '969 Predovic Ridge'),
     ('Marcel', 'Bauch', 'Cynthia_Brekke@gmail.com', '$2a$12$jqMHBp1IoIY9/NZvI.KnxudFRxoBY.GoNT/sG2IalkVtULjBwN1HW', '501 Hermann Tunnel');
+
 
 COMMIT;

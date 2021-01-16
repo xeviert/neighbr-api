@@ -1,6 +1,9 @@
 const FavorsService = {
     getAllFavors(knex) {
-        return knex.select('*').from('favors')
+        return knex
+            .select('*')
+            .from('favors')
+            .leftJoin('users', 'favors.user_id', 'users.user_id')
     },
 
     insertFavor(knex, newFavor) {
