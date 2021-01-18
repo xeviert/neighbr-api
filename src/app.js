@@ -4,7 +4,6 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
-const logger = require('./logger')
 const favorsRouter = require('./favors/favors-router')
 const usersRouter = require('./users/users-router')
 const registerRouter = require('./register/register-router')
@@ -16,19 +15,6 @@ const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
 
-//-------------VALIDATES BEARER TOKENS--------------
-
-// app.use(function validateBearerToken(req, res, next) {
-//     const apiToken = process.env.API_TOKEN
-//     const authToken = req.get('Authorization')
-
-//     if (!authToken || authToken.split(' ')[1] !== apiToken) {
-//         logger.error(`Unauthorized request to path: ${req.path}`);
-//         return res.status(401).json({ error: 'Unauthorized request' })
-//     }
-//     next()
-// })
-
 //---------------------MIDDLEWARE--------------------
 
 app.use(morgan(morganOption))
@@ -37,10 +23,10 @@ app.use(cors())
 app.use(express.json())
 
 //--------------------ROUTERS---------------------------
+app.use('/login', loginRouter)
+app.use('/register', registerRouter)
 app.use('/profile', usersRouter)
 app.use('/favors', favorsRouter)
-app.use('/register', registerRouter)
-app.use('/login', loginRouter)
 
 //--------------------ERROR HANDLER-----------------
 

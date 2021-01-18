@@ -7,7 +7,7 @@ const jsonParser = express.json()
 
 registerRouter
     .route('/')
-    .post(jsonParser, (req, res, next) => {
+    .post((req, res, next) => {
 
         const { first_name, last_name, email, password, address } = req.body      
 
@@ -27,15 +27,17 @@ registerRouter
         RegisterService.hasUserWithEmail(
             req.app.get('db'),
             email
-        ).then(hasUserWithEmail => {
+        ).then((hasUserWithEmail) => {
             if (hasUserWithEmail)
             return res.status(400).json({ error: `email already registered` })
         })
 
             return RegisterService.hashPassword(password)
                 .then(hashedPassword => {
-                    const newUser = { first_name, last_name, email, password: hashedPassword, address }
-                        
+                    const newUser = { 
+                        first_name, last_name, email, 
+                        password: hashedPassword, address 
+                    }                        
                         return RegisterService.insertUser(
                             req.app.get('db'), 
                             newUser

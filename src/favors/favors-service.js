@@ -3,6 +3,7 @@ const FavorsService = {
         return knex
             .select('*')
             .from('favors')
+            .orderBy('posted', 'desc')
             .leftJoin('users', 'favors.user_id', 'users.user_id')
     },
 
