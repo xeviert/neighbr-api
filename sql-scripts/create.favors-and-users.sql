@@ -19,5 +19,5 @@ CREATE TABLE favors (
     payment VARCHAR(20) NOT NULL,
     description VARCHAR(300) NOT NULL,
     posted TIMESTAMP DEFAULT now() NOT NULL,
-    PRIMARY KEY(favor_id),
+    PRIMARY KEY(favor_id)
 )
