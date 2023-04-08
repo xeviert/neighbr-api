@@ -1,8 +1,8 @@
 BEGIN;
 
-TRUNCATE favors;
-INSERT INTO favors
-    (user_id, title, payment, description)
+TRUNCATE "favor";
+INSERT INTO "favor"
+    ("user_id", "title", "payment", "description")
 VALUES
     (2, 'Paint My House', 'my first born', 'Seriously, I do not want my first born'),
     (1, 'Take Out Trash', '$10', 'Too fat to get out of bed. Please take out my trash'),

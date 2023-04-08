@@ -1,8 +1,7 @@
 BEGIN;
 
-TRUNCATE users;
-INSERT INTO users
-    (first_name, last_name, email, password, address)
+TRUNCATE "user";
+INSERT INTO "user"    ("first_name", "last_name", "email", "password", "address")
 VALUES
     ('Alanis', 'Hand', 'Adriel44@gmail.com', '$2a$12$jqMHBp1IoIY9/NZvI.KnxudFRxoBY.GoNT/sG2IalkVtULjBwN1HW', '982 Dietrich Extension'),
     ('Lindsay', 'Schowalter', 'Britney.Luettgen@gmail.com', '$2a$12$jqMHBp1IoIY9/NZvI.KnxudFRxoBY.GoNT/sG2IalkVtULjBwN1HW', '60886 Goldner Lodge'),

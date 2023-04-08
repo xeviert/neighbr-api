@@ -1,6 +1,7 @@
+const { JsonWebTokenError } = require('jsonwebtoken')
 const LoginService = require('../login/login-service')
 
-function requireAuth(req, res, next) {
+async function requireAuth(req, res, next) {
     const authToken = req.get('Authorization') || ''
 
     let bearerToken
@@ -12,21 +13,31 @@ function requireAuth(req, res, next) {
     try {
         const payload = LoginService.verifyJwt(bearerToken)
 
-        LoginService.getUserWithEmail(
+        const user = await LoginService.getUserWithEmail(
             req.app.get('db'),
             payload.sub,
         )
-        .then(user => {
-            if (!user)
-              return res.status(401).json({ error: 'Unauthorized request' })
-            req.user = user
-            next()
-        })
-        .catch(err => {
-            next(err)
-        })
+        
+        if (!user)
+        return res.status(401).json({ error: 'Unauthorized request' })
+
+        req.user = user
+        next()
+        // .then(user => {
+        //     if (!user)
+        //       return res.status(401).json({ error: 'Unauthorized request' })
+        //     req.user = user
+        //     next()
+        // })
+        // .catch(err => {
+        //     next(err)
+        // })
     } catch(error) {
-        res.status(401).json({ error: 'Unauthorized request' })
+        // res.status(401).json({ error: 'Unauthorized request' })
+        if (error instanceof JsonWebTokenError)
+            return res.status(401).json({ error: 'Unauthorized request' })
+
+            next(error)
     }
 }
 

@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
+const errorHandler = require('./middleware/error-handler')
 const favorsRouter = require('./favors/favors-router')
 const usersRouter = require('./users/users-router')
 const registerRouter = require('./register/register-router')
@@ -28,18 +29,6 @@ app.use('/register', registerRouter)
 app.use('/profile', usersRouter)
 app.use('/favors', favorsRouter)
 
-//--------------------ERROR HANDLER-----------------
-
-app.use(function errorHandler(error, req, res, next) {
-    let response;
-    if (NODE_ENV === 'production') {
-        response = { error: { message: 'server error'} }
-    } else {
-        response = { message: error.message, error }
-    }
-    console.error(error)
-    res.status(500).json(response)
-});
-
+app.use(errorHandler)
 
 module.exports = app

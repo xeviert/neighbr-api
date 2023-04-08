@@ -28,7 +28,6 @@
     "express": "^4.17.1",
     "express-router": "0.0.1",
     "helmet": "^4.2.0",
-    "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.15",
     "morgan": "^1.10.0",
     "pg": "^8.6.0",
@@ -39,6 +38,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "jsonwebtoken": "^9.0.0",
     "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
     "supertest": "^6.0.1"

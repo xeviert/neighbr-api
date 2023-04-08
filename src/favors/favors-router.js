@@ -8,13 +8,20 @@ const jsonBodyParser = express.json()
 
 favorsRouter
     .route('/')
-    .get((req, res, next) => {
-        FavorsService.getAllFavors(req.app.get('db'))
-            .then(favors => {
-                res.json(favors)
-            })
-            .catch(next)
+    .get(async (req, res, next) => {
+        try {
+            const favors = await FavorsService.getAllFavors(req.app.get('db'))
+            res.json(favors)
+        } catch (error) {
+            next(error)
+        }
+        // FavorsService.getAllFavors(req.app.get('db'))
+        //     .then(favors => {
+        //         res.json(favors)
+        //     })
+            // .catch(next)
     })
+
     .post(requireAuth, jsonBodyParser, (req, res, next) => {
         const { title, payment, description } = req.body
         const newFavor = { title, payment, description }

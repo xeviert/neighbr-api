@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS favors;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS favor;
 
-CREATE TABLE users (
+CREATE TABLE user (
     user_id INT GENERATED ALWAYS AS IDENTITY,
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE users (
     PRIMARY KEY(user_id)
 );
 
-CREATE TABLE favors (
+CREATE TABLE favor (
     favor_id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT,
     assign_to INT,

@@ -2,15 +2,15 @@ const FavorsService = {
     getAllFavors(knex) {
         return knex
             .select('*')
-            .from('favors')
+            .from('favor')
             .orderBy('posted', 'desc')
-            .leftJoin('users', 'favors.user_id', 'users.user_id')
+            .leftJoin('user', 'favor.user_id', 'user.id')
     },
 
     insertFavor(knex, newFavor) {
         return knex
             .insert(newFavor)
-            .into('favors')
+            .into('favor')
             .returning('*')
             .then(rows => {
                 return rows[0]

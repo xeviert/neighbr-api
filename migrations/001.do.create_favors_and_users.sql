@@ -1,14 +1,14 @@
-CREATE TABLE users (
-    user_id INT GENERATED ALWAYS AS IDENTITY,
+CREATE TABLE "user" (
+    id INT GENERATED ALWAYS AS IDENTITY,
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     email VARCHAR(30) NOT NULL,
     password VARCHAR(164) NOT NULL,
     address VARCHAR(50) NOT NULL,
-    PRIMARY KEY(user_id)
+    PRIMARY KEY(id)
 );
 
-CREATE TABLE favors (
+CREATE TABLE "favor" (
     favor_id INT GENERATED ALWAYS AS IDENTITY,
     user_id INT,
     assign_to INT,

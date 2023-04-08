@@ -7,8 +7,7 @@ const jsonParser = express.json()
 
 registerRouter
     .route('/')
-    .post((req, res, next) => {
-
+    .post(jsonParser, async (req, res, next) => {
         const { first_name, last_name, email, password, address } = req.body      
 
         for (const field of ['first_name', 'last_name', 'email', 'password', 'address']) {
@@ -19,37 +18,38 @@ registerRouter
             }
         }
 
-        const passwordError = RegisterService.validatePassword(password)
+        try {
+            const passwordError = RegisterService.validatePassword(password)
+    
+            if (passwordError)
+                return res.status(400).json({ error: passwordError })
 
-        if (passwordError)
-            return res.status(400).json({ error: passwordError })
+            const hasUserWithEmail = await RegisterService.hasUserWithEmail(
+                req.app.get('db'),
+                email
+            )
 
-        RegisterService.hasUserWithEmail(
-            req.app.get('db'),
-            email
-        ).then((hasUserWithEmail) => {
             if (hasUserWithEmail)
             return res.status(400).json({ error: `email already registered` })
-        })
 
-            return RegisterService.hashPassword(password)
-                .then(hashedPassword => {
-                    const newUser = { 
-                        first_name, last_name, email, 
-                        password: hashedPassword, address 
-                    }                        
-                        return RegisterService.insertUser(
-                            req.app.get('db'), 
-                            newUser
-                        )
-                            .then(user => {
-                                res
-                                .status(201)
-                                .json(user)
-                            })
-                })
+            const hashedPassword = await RegisterService.hashPassword(password)
+            const newUser = { 
+                first_name, last_name, email, 
+                password: hashedPassword, address 
+            }    
 
-            .catch(next)
+            const user = await RegisterService.insertUser(
+                req.app.get('db'), 
+                newUser
+            )
+
+            res
+                .status(201)
+                .json(user)
+
+        } catch (error) {
+            next(error)
+        }
     })
 
 module.exports = registerRouter
