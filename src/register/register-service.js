@@ -7,14 +7,14 @@ const RegisterService = {
     insertUser(knex, newUser) {
         return knex
             .insert(newUser)
-            .into('users')
+            .into('user')
             .returning('*')
             .then(rows => {
                 return rows[0]
             })
     },
     hasUserWithEmail(db, email) {
-        return db('users')
+        return db('user')
             .where({ email })
             .first()
             .then((user) => !!user)
@@ -40,5 +40,3 @@ const RegisterService = {
 }
 
 module.exports = RegisterService
-// module.exports.registerValidation = registerValidation;
-// module.exports.loginValidation = loginValidation;

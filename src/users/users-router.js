@@ -9,7 +9,7 @@ const jsonParser = express.json()
 usersRouter
     .route('/')
     .get(requireAuth, (req, res, next) => {
-        UsersService.getAllUsers(req.app.get('db'), req.user.user_id)
+        UsersService.getAllUsers(req.app.get('db'), req.user.id)
             .then(users => {
                 res.json(users)
             })
