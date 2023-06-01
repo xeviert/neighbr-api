@@ -12,6 +12,7 @@ const db = knex({
 
 app.set('db', db)
 
+app.get('/', (req, res) => res.send('Deployed! 🚀'));
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}! Neighbr-API is live!`);
 });
